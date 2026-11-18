@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lensary.id — Fotografer Wisuda & Casual Selebrasi</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Playfair Display (Serif) & Plus Jakarta Sans (Sans-serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Konfigurasi Kustom Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: {
+              50: '#FDFBF7',
+              100: '#F7F3EB',
+              200: '#EDE5D7',
+            },
+            charcoal: {
+              800: '#2A2826',
+              900: '#1C1B1A',
+            },
+            earth: {
+              400: '#C49A6C',
+              500: '#B08556',
+              600: '#946B3F',
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Efek transisi halus untuk filter galeri & modal */
+    .gallery-item {
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+    }
+    .gallery-item.hidden-item {
+      display: none;
+    }
+    /* Sembunyikan scrollbar saat modal terbuka */
+    body.modal-open {
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-cream-50 text-charcoal-900 font-sans antialiased selection:bg-earth-400 selection:text-white">
+
+  <!-- ==========================================
+       1. HEADER / NAVIGASI SIMPEL
+  =========================================== -->
+  <header class="sticky top-0 z-40 bg-cream-50/90 backdrop-blur-md border-b border-cream-200/80">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
+      <!-- Logo / Brand -->
+      <a href="#beranda" class="flex items-center gap-2 group">
+        <span class="w-8 h-8 rounded-full bg-charcoal-900 text-cream-50 flex items-center justify-center font-serif italic text-lg group-hover:bg-earth-500 transition-colors">
+          LA
+        </span>
+        <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-charcoal-900">
+          Lensary<span class="text-earth-500">.id</span>
+        </span>
+      </a>
+
+      <!-- Menu Navigasi Desktop -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-charcoal-800/80">
+        <a href="#beranda" class="hover:text-earth-600 transition-colors">Beranda</a>
+        <a href="#portofolio" class="hover:text-earth-600 transition-colors">Portofolio</a>
+        <a href="#paket-harga" class="hover:text-earth-600 transition-colors">Paket Harga</a>
+        <a href="#tentang-owner" class="hover:text-earth-600 transition-colors">Tentang Owner</a>
+      </nav>
+
+      <!-- Tombol CTA Header & Hamburger Mobile -->
+      <div class="flex items-center gap-3">
+        <a href="#paket-harga" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-charcoal-900 text-cream-50 text-sm font-medium hover:bg-earth-600 transition-all shadow-sm">
+          Booking Sesi
+        </a>
+        
+        <!-- Tombol Menu Mobile -->
+        <button id="mobile-menu-btn" aria-label="Buka Menu" class="md:hidden p-2.5 rounded-xl text-charcoal-900 hover:bg-cream-200/70 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Dropdown Menu Mobile -->
+    <div id="mobile-menu" class="hidden md:hidden bg-cream-50 border-b border-cream-200 px-5 pt-2 pb-6 space-y-3">
+      <a href="#beranda" class="mobile-link block py-2 text-base font-medium text-charcoal-800 hover:text-earth-600">Beranda</a>
+      <a href="#portofolio" class="mobile-link block py-2 text-base font-medium text-charcoal-800 hover:text-earth-600">Portofolio</a>
+      <a href="#paket-harga" class="mobile-link block py-2 text-base font-medium text-charcoal-800 hover:text-earth-600">Paket Harga</a>
+      <a href="#tentang-owner" class="mobile-link block py-2 text-base font-medium text-charcoal-800 hover:text-earth-600">Tentang Owner</a>
+      <div class="pt-2">
+        <a href="#paket-harga" class="mobile-link block w-full text-center py-3 rounded-full bg-charcoal-900 text-cream-50 font-medium">
+          Booking Sesi Sekarang
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==========================================
+         2. HERO SECTION
+    =========================================== -->
+    <section id="beranda" class="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+          
+          <!-- Teks Utama Hero -->
+          <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cream-200/80 text-charcoal-800 text-xs sm:text-sm font-medium tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-earth-500"></span>
+              Wisuda &bull; Casual Selebrasi &bull; Outdoor Session
+            </div>
+            
+            <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.15] text-charcoal-900">
+              Abadikan Momen Spesial <span class="italic font-normal text-earth-600">Wisuda & Selebrasi</span> dengan Hangat.
+            </h1>
+            
+            <p class="text-base sm:text-lg text-charcoal-800/75 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              Setiap tawa kelulusan dan perayaan sederhana layak dikenang selamanya. Lensary.id hadir dengan gaya fotografi natural, candid, dan timeless tanpa pose yang kaku.
+            </p>
+            
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <a href="#paket-harga" class="w-full sm:w-auto px-8 py-4 rounded-full bg-charcoal-900 text-cream-50 font-medium text-sm sm:text-base hover:bg-earth-600 transition-all shadow-md hover:shadow-lg text-center">
+                Lihat Paket Harga
+              </a>
+              <a href="#portofolio" class="w-full sm:w-auto px-8 py-4 rounded-full bg-cream-100 text-charcoal-900 border border-cream-200 font-medium text-sm sm:text-base hover:bg-cream-200/70 transition-all text-center">
+                Jelajahi Galeri
+              </a>
+            </div>
+
+            <!-- Info Singkat Rate -->
+            <div class="pt-4 flex items-center justify-center lg:justify-start gap-6 text-xs sm:text-sm text-charcoal-800/70">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-earth-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Mulai Rp 400rb / sesi</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-earth-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>All Files via Google Drive</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kolase Visual Hero -->
+          <div class="lg:col-span-5">
+            <div class="relative mx-auto max-w-md lg:max-w-none">
+              <!-- Dekorasi Frame -->
+              <div class="absolute -inset-3 rounded-3xl bg-cream-200/70 -rotate-2"></div>
+              <div class="relative rounded-3xl overflow-hidden shadow-xl aspect-[4/5] bg-cream-200">
+                <img 
+                  src="WSELLI-63.JPG" 
+                  alt="Momen Wisuda Estetik Lensary.id" 
+                  onerror="this.src='https://placehold.co/800x1000/EDE5D7/2A2826?text=Lensary.id+Graduation'"
+                  class="w-full h-full object-cover object-center"
+                />
+                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-charcoal-900/75 via-charcoal-900/20 to-transparent p-6 text-cream-50">
+                  <p class="font-serif italic text-lg">"Capturing genuine smiles & milestones."</p>
+                  <p class="text-xs text-cream-200 mt-1">Lensary.id Signature Tone</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         3. GALERI PORTOFOLIO (DENGAN FILTER & LIGHTBOX)
+    =========================================== -->
+    <section id="portofolio" class="py-20 sm:py-24 bg-cream-100/70 border-y border-cream-200/70">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        
+        <!-- Header Bagian Portofolio -->
+        <div class="text-center max-w-2xl mx-auto space-y-3 mb-10">
+          <span class="text-xs font-semibold uppercase tracking-widest text-earth-600">Karya Pilihan</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900">Portofolio Lensary.id</h2>
+          <p class="text-sm sm:text-base text-charcoal-800/75">
+            Klik pada foto untuk melihat detail ukuran penuh. Pilih kategori di bawah untuk melihat hasil sesi Wisuda maupun Casual Selebrasi.
+          </p>
+        </div>
+
+        <!-- Tombol Filter Kategori -->
+        <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mb-12" id="filter-buttons">
+          <button data-filter="all" class="filter-btn active px-5 py-2.5 rounded-full text-sm font-medium bg-charcoal-900 text-cream-50 shadow-sm transition-all">
+            Semua Karya
+          </button>
+          <button data-filter="wisuda" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium bg-cream-50 text-charcoal-800 border border-cream-200 hover:border-earth-400 transition-all">
+            Wisuda
+          </button>
+          <button data-filter="casual" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium bg-cream-50 text-charcoal-800 border border-cream-200 hover:border-earth-400 transition-all">
+            Casual Selebrasi
+          </button>
+        </div>
+
+        <!-- Grid Foto Portofolio -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="portfolio-grid">
+          
+          <!-- Foto 1: Wisuda -->
+          <div class="gallery-item group relative rounded-2xl overflow-hidden bg-cream-200 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-xl" 
+               data-category="wisuda"
+               data-title="Kelulusan Sarjana — Twith family"
+               data-caption="Sesi Wisuda 1 Jam ">
+            <img 
+              src="AYUSAPNA-33.JPG" 
+              alt="Portofolio Wisuda 1" 
+              onerror="this.src='https://placehold.co/800x1000/EDE5D7/2A2826?text=Wisuda+1'"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+              <span class="text-xs font-medium uppercase tracking-wider text-earth-400">Wisuda</span>
+              <h3 class="font-serif text-lg text-white font-semibold mt-0.5">Kelulusan Sarjana — Taman Kampus</h3>
+            </div>
+          </div>
+
+          <!-- Foto 2: Casual Selebrasi -->
+          <div class="gallery-item group relative rounded-2xl overflow-hidden bg-cream-200 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-xl" 
+               data-category="casual"
+               data-title=""
+               data-caption="Casual Selebrasi 30 Menit • in FBS Undiksha">
+            <img 
+              src="MANDA-3.JPG" 
+              alt="Portofolio Casual Selebrasi 1" 
+              onerror="this.src='https://placehold.co/800x1000/EDE5D7/2A2826?text=Casual+1'"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+              <span class="text-xs font-medium uppercase tracking-wider text-earth-400">Casual Selebrasi</span>
+              <h3 class="font-serif text-lg text-white font-semibold mt-0.5">Selebrasi Sidang Skripsi</h3>
+            </div>
+          </div>
+
+          <!-- Foto 3: Wisuda -->
+          <div class="gallery-item group relative rounded-2xl overflow-hidden bg-cream-200 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-xl" 
+               data-category="wisuda"
+               data-title=""
+               data-caption="Sesi Wisuda 1 Jam • Grup & Personal">
+            <img 
+              src="JUST SEPTI-084.jpg" 
+              alt="Portofolio Wisuda 2" 
+              onerror="this.src='https://placehold.co/800x1000/EDE5D7/2A2826?text=Wisuda+2'"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+              <span class="text-xs font-medium uppercase tracking-wider text-earth-400">Wisuda</span>
+              <h3 class="font-serif text-lg text-white font-semibold mt-0.5">Moment Special</h3>
+            </div>
+          </div>
+
+          <!-- Foto 4: Casual Selebrasi -->
+          <div class="gallery-item group relative rounded-2xl overflow-hidden bg-cream-200 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-xl" 
+               data-category="casual"
+               data-title="Selebrasi sidang dan yang lainnya"
+               data-caption="Casual Selebrasi • Bestie Session">
+            <img 
+              src="IMG_4974.JPG" 
+              alt="Portofolio Casual Selebrasi 2" 
+              onerror="this.src='https://placehold.co/800x1000/EDE5D7/2A2826?text=Casual+2'"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+              <span class="text-xs font-medium uppercase tracking-wider text-earth-400">Casual Selebrasi</span>
+              <h3 class="font-serif text-lg text-white font-semibold mt-0.5">Group Celebrations </h3>
+            </div>
+          </div>
+
+          <!-- Foto 5: Wisuda -->
+          <div class="gallery-item group relative rounded-2xl overflow-hidden bg-cream-200 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-xl" 
+               data-category="wisuda"
+               data-title="Potret wisuda"
+               data-caption="Sesi Wisuda 30 Menit • Solo Portrait">
+            <img 
+              src="LIA-328.JPG" 
+              alt="Portofolio Wisuda 3" 
+              onerror="this.src='https://placehold.co/800x1000/EDE5D7/2A2826?text=Wisuda+3'"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+              <span class="text-xs font-medium uppercase tracking-wider text-earth-400">Wisuda</span>
+              <h3 class="font-serif text-lg text-white font-semibold mt-0.5">Potret </h3>
+            </div>
+          </div>
+
+          <!-- Foto 6: Casual Selebrasi -->
+          <div class="gallery-item group relative rounded-2xl overflow-hidden bg-cream-200 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-xl" 
+               data-category="casual"
+               data-title="Sore Santai & Selebrasi Pencapaian Baru"
+               data-caption="Casual Selebrasi 1 Jam • Undiksha">
+            <img 
+              src="IMG_9149.JPG" 
+              alt="Portofolio Casual Selebrasi 3" 
+              onerror="this.src='https://placehold.co/800x1000/EDE5D7/2A2826?text=Casual+3'"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+              <span class="text-xs font-medium uppercase tracking-wider text-earth-400">Casual Selebrasi</span>
+              <h3 class="font-serif text-lg text-white font-semibold mt-0.5">Sore Santai </h3>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         4. DAFTAR HARGA / RATE CARD
+    =========================================== -->
+    <section id="paket-harga" class="py-20 sm:py-28">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8">
+        
+        <!-- Header Rate Card -->
+        <div class="text-center max-w-2xl mx-auto space-y-3 mb-14">
+          <span class="text-xs font-semibold uppercase tracking-widest text-earth-600">Rate Card Transparan</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900">Paket Sesi Foto</h2>
+          <p class="text-sm sm:text-base text-charcoal-800/75">
+            Pilihan paket simpel untuk kebutuhan foto <strong>Wisuda</strong> maupun <strong>Casual Selebrasi</strong>. Tanpa biaya tersembunyi.
+          </p>
+        </div>
+
+        <!-- Grid 2 Kartu Harga -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+            <!-- KARTU TAMBAHAN: PAKET SPESIAL CASUAL SELEBRASI -->
+<div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 flex flex-col justify-between hover:shadow-xl transition duration-300 relative overflow-hidden">
+    <!-- Badge Populer / Penawaran Khusus -->
+    <div class="absolute top-0 right-0 bg-amber-500 text-white text-xs font-semibold px-3 py-1 rounded-bl-lg">
+        Hemat & Cepat
+    </div>
+    
+    <div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Casual Selebrasi</h3>
+        <p class="text-gray-500 text-sm mb-6">Cocok untuk momen singkat Sidang Skripsi, Tesis, PCWW.</p>
+        
+        <div class="mb-6">
+            <span class="text-3xl font-extrabold text-gray-900">Rp 200rb</span>
+            <span class="text-gray-500 text-sm"> / sesi</span>
+        </div>
+        
+        <ul class="space-y-3 text-sm text-gray-600 mb-8">
+            <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <span>Durasi: 1 Jam</span>
+            </li>
+            <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <span>Lokasi / Spot Pilihan</span>
+            </li>
+            <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <span>File edit dikirim via Google Drive</span>
+            </li>
+        </ul>
+    </div>
+    
+    <a href="https://wa.me/6287761424049?text=Halo%20Lensary.id,%20saya%20tertarik%20dengan%20Paket%20Mini%20Casual%20Selebrasi%20(Rp%20200rb)." 
+       target="_blank" 
+       class="block text-center bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-xl transition duration-200">
+       Booking Paket Ini
+    </a>
+</div>
+          
+          <!-- PAKET 1: 30 Menit — Rp 400.000 -->
+          <div class="rounded-3xl bg-white border border-cream-200 p-8 sm:p-10 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="px-3.5 py-1 rounded-full bg-cream-100 text-charcoal-800 text-xs font-semibold">
+                  Sesi Singkat & Praktis
+                </span>
+                <span class="text-xs font-medium text-charcoal-800/60">30 Menit</span>
+              </div>
+              
+              <h3 class="font-serif text-2xl font-bold text-charcoal-900">Paket Express Session</h3>
+              <p class="text-sm text-charcoal-800/70 mt-2">
+                Pas untuk sesi cepat Wisuda solo atau Casual Selebrasi di lokasi favorit.
+              </p>
+
+              <div class="my-7 pb-7 border-b border-cream-200">
+                <div class="flex items-baseline gap-1.5">
+                  <span class="text-sm font-medium text-charcoal-800/70">Rp</span>
+                  <span class="font-serif text-4xl sm:text-5xl font-bold text-charcoal-900">400.000</span>
+                  <span class="text-sm text-charcoal-800/60">/ sesi</span>
+                </div>
+              </div>
+
+              <!-- Rincian Fasilitas Paket 1 -->
+              <ul class="space-y-3.5 text-sm text-charcoal-800/85 mb-8">
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-earth-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Durasi pemotretan <strong>30 Menit</strong></span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-earth-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span><strong>All Files Original</strong> dikirim via Google Drive</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-earth-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span><strong>40 Foto Edited</strong> (Signature Tone)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-earth-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span> Lokasi pemotretan & arahan gaya santai</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Tombol WhatsApp Paket 1 -->
+            <a href="https://wa.me/6287761424049?text=Halo%20Lensary.id!%20Saya%20tertarik%20untuk%20booking%20*Paket%20Sesi%2030%20Menit%20(Rp%20400.000)*.%20Boleh%20cek%20jadwal%20yang%20tersedia%3F" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="w-full py-3.5 px-6 rounded-full bg-cream-100 hover:bg-charcoal-900 text-charcoal-900 hover:text-cream-50 border border-cream-200 hover:border-charcoal-900 font-semibold text-sm text-center transition-all flex items-center justify-center gap-2">
+              <span>Booking Paket Ini</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- PAKET 2: 1 Jam — Rp 550.000 (BEST VALUE) -->
+          <div class="relative rounded-3xl bg-charcoal-900 text-cream-50 p-8 sm:p-10 flex flex-col justify-between shadow-xl ring-2 ring-earth-500/60">
+            <!-- Badge Populer -->
+            <div class="absolute -top-3.5 right-8 px-4 py-1 rounded-full bg-earth-500 text-white text-xs font-bold tracking-wide uppercase shadow-sm">
+              Paling Populer
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="px-3.5 py-1 rounded-full bg-white/10 text-earth-400 text-xs font-semibold">
+                  Best Value &bull; Lebih Santai
+                </span>
+                <span class="text-xs font-medium text-cream-200/70">1 Jam Penuh</span>
+              </div>
+              
+              <h3 class="font-serif text-2xl font-bold text-white">Paket Signature 1 Jam</h3>
+              <p class="text-sm text-cream-200/75 mt-2">
+                Ideal untuk Wisuda bersama keluarga/teman atau Casual Selebrasi dengan eksplorasi banyak spot & gaya.
+              </p>
+
+              <div class="my-7 pb-7 border-b border-white/15">
+                <div class="flex items-baseline gap-1.5">
+                  <span class="text-sm font-medium text-cream-200/70">Rp</span>
+                  <span class="font-serif text-4xl sm:text-5xl font-bold text-white">550.000</span>
+                  <span class="text-sm text-cream-200/70">/ sesi</span>
+                </div>
+              </div>
+
+              <!-- Rincian Fasilitas Paket 2 -->
+              <ul class="space-y-3.5 text-sm text-cream-100/90 mb-8">
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-earth-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Durasi pemotretan <strong>1 Jam (60 Menit)</strong></span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-earth-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span><strong>All Files edited</strong> dikirim via Google Drive</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-earth-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span><strong></strong> (Signature Tone)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-earth-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Fleksibel pose solo, pasangan, keluarga & sahabat</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-earth-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Bebas eksplor beberapa spot di area yang sama</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Tombol WhatsApp Paket 2 -->
+            <a href="https://wa.me/6287761424049?text=Halo%20Lensary.id!%20Saya%20tertarik%20untuk%20booking%20*Paket%20Sesi%201%20Jam%20(Rp%20550.000)*.%20Boleh%20info%20ketersediaan%20tanggalnya%3F" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="w-full py-3.5 px-6 rounded-full bg-earth-500 hover:bg-earth-400 text-white font-semibold text-sm text-center transition-all shadow-md flex items-center justify-center gap-2">
+              <span>Booking Paket Ini</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         5. TENTANG OWNER (ABOUT OWNER)
+    =========================================== -->
+    <section id="tentang-owner" class="py-20 sm:py-24 bg-cream-100/80 border-t border-cream-200/80">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8">
+        <div class="rounded-3xl bg-cream-50 border border-cream-200 p-7 sm:p-12 shadow-sm">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-12 items-center">
+            
+            <!-- Foto Profil / Potret Owner Fotografer -->
+            <div class="md:col-span-5">
+              <div class="relative mx-auto max-w-xs md:max-w-none">
+                <div class="rounded-2xl overflow-hidden aspect-[4/5] bg-cream-200 shadow-md">
+                  <img 
+                    src="foto wendy.jpg" 
+                    alt="Owner & Lead Photographer Lensary.id" 
+                    onerror="this.src='https://placehold.co/800x1000/EDE5D7/2A2826?text=Owner+Lensary.id'"
+                    class="w-full h-full object-cover object-center"
+                  />
+                </div>
+                <!-- Kartu Kecil Nama Owner -->
+                <div class="mt-4 text-center md:text-left">
+                  <p class="font-serif text-lg font-bold text-charcoal-900">Founder & Lead Photographer</p>
+                  <p class="text-xs text-earth-600 font-medium tracking-wide uppercase">Lensary.id Visual</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cerita & Gaya Fotografi Owner -->
+            <div class="md:col-span-7 space-y-5">
+              <span class="text-xs font-semibold uppercase tracking-widest text-earth-600">Di Balik Lensa</span>
+              <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900 leading-tight">
+                Halo! Saya Wendy Ary di balik <span class="italic font-normal text-earth-600">Lensary.id</span>.
+              </h2>
+              
+              <p class="text-sm sm:text-base text-charcoal-800/80 leading-relaxed">
+                Saya memulai <strong>Lensary.id</strong> dari kecintaan menangkap ekspresi jujur orang-orang saat merayakan pencapaian besar maupun kebahagiaan kecil—mulai dari hari kelulusan wisuda hingga sesi casual selebrasi bersama orang tersayang.
+              </p>
+              
+              <p class="text-sm sm:text-base text-charcoal-800/80 leading-relaxed">
+                Tidak perlu khawatir kalau kamu merasa canggung di depan kamera. Selama sesi berlangsung, saya akan mengarahkan pose secara santai dan natural agar setiap foto terasa hidup dan personal.
+              </p>
+
+              <!-- Highlight Nilai Utama -->
+              <div class="pt-3 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-cream-200">
+                <div>
+                  <p class="font-serif text-xl font-bold text-charcoal-900">Natural</p>
+                  <p class="text-xs text-charcoal-800/65 mt-0.5">Candid & tidak kaku</p>
+                </div>
+                <div>
+                  <p class="font-serif text-xl font-bold text-charcoal-900">Fast Delivery</p>
+                  <p class="text-xs text-charcoal-800/65 mt-0.5">All files via G-Drive</p>
+                </div>
+                <div class="col-span-2 sm:col-span-1">
+                  <p class="font-serif text-xl font-bold text-charcoal-900">Clean Tone</p>
+                  <p class="text-xs text-charcoal-800/65 mt-0.5">Color grading estetik</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================
+       6. FOOTER & KONTAK
+  =========================================== -->
+  <footer id="kontak" class="bg-charcoal-900 text-cream-100 py-14">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-white/10">
+        
+        <!-- Brand Footer -->
+        <div class="text-center md:text-left space-y-2">
+          <a href="#beranda" class="font-serif text-2xl font-bold text-white">
+            Lensary<span class="text-earth-400">.id</span>
+          </a>
+          <p class="text-sm text-cream-200/70 max-w-sm">
+            Jasa fotografi Wisuda & Casual Selebrasi dengan hasil hangat, estetik, dan harga bersahabat.
+          </p>
+        </div>
+
+        <!-- Link Sosial Media & Kontak Langsung -->
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="https://instagram.com/lensary.id" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/10 hover:bg-earth-500 text-sm font-medium text-white transition-colors">
+            <!-- Ikon Instagram -->
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+            <span>@lensary.id</span>
+          </a>
+
+          <a href="https://wa.me/6287761424049?text=Halo%20Lensary.id!%20Saya%20ingin%20tanya-tanya%20mengenai%20jadwal%20sesi%20foto." 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-earth-500 hover:bg-earth-400 text-sm font-medium text-white transition-colors">
+            <!-- Ikon WhatsApp -->
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+            </svg>
+            <span>WhatsApp Booking</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream-200/50">
+        <p>&copy; <span id="current-year"></span> Lensary.id. Seluruh hak cipta dilindungi.</p>
+        <p>Wisuda &bull; Casual Selebrasi &bull; Portrait Photography</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       MODAL LIGHTBOX UNTUK MEMPERBESAR FOTO
+  =========================================== -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 hidden bg-charcoal-900/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8" role="dialog" aria-modal="true">
+    <!-- Tombol Tutup Modal -->
+    <button id="lightbox-close" aria-label="Tutup Preview" class="absolute top-5 right-5 sm:top-8 sm:right-8 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Konten Foto Modal -->
+    <div class="max-w-3xl w-full flex flex-col items-center">
+      <div class="rounded-2xl overflow-hidden shadow-2xl max-h-[75vh] bg-charcoal-800">
+        <img id="lightbox-img" src="" alt="Preview Portofolio" class="w-auto max-h-[75vh] object-contain mx-auto" />
+      </div>
+      <div class="mt-4 text-center text-white">
+        <h4 id="lightbox-title" class="font-serif text-lg sm:text-xl font-semibold"></h4>
+        <p id="lightbox-caption" class="text-xs sm:text-sm text-cream-200/75 mt-1"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       VANILLA JAVASCRIPT (INTERAKTIVITAS)
+  =========================================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Set tahun otomatis di footer
+      const yearEl = document.getElementById('current-year');
+      if (yearEl) {
+        yearEl.textContent = new Date().getFullYear();
+      }
+
+      // 2. Toggle Menu Navigasi Mobile
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+
+        // Tutup menu mobile otomatis saat link diklik
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+          });
+        });
+      }
+
+      // 3. Filter Kategori Portofolio (Semua, Wisuda, Casual Selebrasi)
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const galleryItems = document.querySelectorAll('.gallery-item');
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Reset gaya semua tombol filter
+          filterButtons.forEach(btn => {
+            btn.classList.remove('active', 'bg-charcoal-900', 'text-cream-50', 'shadow-sm');
+            btn.classList.add('bg-cream-50', 'text-charcoal-800', 'border', 'border-cream-200');
+          });
+
+          // Aktifkan tombol yang dipilih
+          button.classList.add('active', 'bg-charcoal-900', 'text-cream-50', 'shadow-sm');
+          button.classList.remove('bg-cream-50', 'text-charcoal-800', 'border', 'border-cream-200');
+
+          const filterValue = button.getAttribute('data-filter');
+
+          // Tampilkan atau sembunyikan item galeri
+          galleryItems.forEach(item => {
+            const itemCategory = item.getAttribute('data-category');
+            if (filterValue === 'all' || itemCategory === filterValue) {
+              item.classList.remove('hidden-item');
+            } else {
+              item.classList.add('hidden-item');
+            }
+          });
+        });
+      });
+
+      // 4. Fitur Lightbox / Modal Foto
+      const lightboxModal = document.getElementById('lightbox-modal');
+      const lightboxImg = document.getElementById('lightbox-img');
+      const lightboxTitle = document.getElementById('lightbox-title');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      const lightboxClose = document.getElementById('lightbox-close');
+
+      // Buka lightbox saat item galeri diklik
+      galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const img = item.querySelector('img');
+          const title = item.getAttribute('data-title') || '';
+          const caption = item.getAttribute('data-caption') || '';
+
+          if (img && lightboxModal) {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = title;
+            lightboxTitle.textContent = title;
+            lightboxCaption.textContent = caption;
+
+            lightboxModal.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+          }
+        });
+      });
+
+      // Fungsi menutup lightbox
+      const closeLightbox = () => {
+        if (lightboxModal) {
+          lightboxModal.classList.add('hidden');
+          document.body.classList.remove('modal-open');
+          lightboxImg.src = '';
+        }
+      };
+
+      if (lightboxClose) {
+        lightboxClose.addEventListener('click', closeLightbox);
+      }
+
+      // Tutup lightbox jika klik di luar area gambar
+      if (lightboxModal) {
+        lightboxModal.addEventListener('click', (e) => {
+          if (e.target === lightboxModal) {
+            closeLightbox();
+          }
+        });
+      }
+
+      // Tutup lightbox dengan tombol Escape pada keyboard
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightboxModal && !lightboxModal.classList.contains('hidden')) {
+          closeLightbox();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
